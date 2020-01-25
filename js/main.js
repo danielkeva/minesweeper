@@ -447,6 +447,7 @@ function setTime() {
     gGame.secsPassed++
     elSeconds.innerHTML = pad(gGame.secsPassed % 60);
     elMinutes.innerHTML = pad(Math.floor(gGame.secsPassed / 60));
+    
 }
 
 
@@ -464,7 +465,7 @@ function resetStopwatch() {
     var elMinutes = document.querySelector('.minutes')
     elSeconds.innerHTML = '00';
     elMinutes.innerHTML = '00';
-  
+    clearInterval(timeInterval)
 }
 
 
