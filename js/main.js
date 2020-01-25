@@ -15,8 +15,8 @@ var isHinted;
 var isFirstClick;
 
 var gLevel = {
-    SIZE: 8,
-    MINES: 12
+    SIZE: 4,
+    MINES: 2
 };
 var gGame;
 var gBoard;
@@ -44,8 +44,7 @@ function init() {
     isFirstClick = true;
     isManuallMode = false;
     isHinted = false;
-
-    gGame = {
+      gGame = {
         isOn: false,
         shownCount: 0,
         markedCount: 0,
@@ -54,7 +53,6 @@ function init() {
         safeClickCount: 3
     }
     resetStopwatch()
-
     renderLives(gGame.livesCount)
     gBoard = buildBoard()
     renderBoard(gBoard)
@@ -174,12 +172,13 @@ function cellClicked(event, elCell, i, j) {
             setMinesNegsCount()
             isFirstClick = false
             gGame.isOn = true
-            timeInterval = setInterval(setTime, 1000);
         }
+        timeInterval = setInterval(setTime, 1000);
         if (!gGame.isOn) return;
         if (isHinted) {
             useHint(i, j) // if hint clicked
             setTimeout(cleanHintMark, 1000) // clears the hint after a second
+
             isHinted = false
             return
         }
@@ -263,14 +262,15 @@ function checkGameOver(i, j) {
             elButton.innerText = LOSS
             gGame.isOn = false;
             clearInterval(timeInterval)
+            resetStopwatch()
         }
     }
     if ((gLevel.SIZE ** 2) - gGame.markedCount === gGame.shownCount) {
         elButton.innerText = WIN
         gGame.isOn = false;
         clearInterval(timeInterval)
-
         keepHighScore()
+        resetStopwatch()
     }
 
 }
@@ -440,6 +440,8 @@ function displayHighScore(level) { // get the level number from changeLevel() an
 }
 
 function setTime() {
+  
+    if (!gGame.isOn) return;
     var elSeconds = document.querySelector('.seconds')
     var elMinutes = document.querySelector('.minutes')
     gGame.secsPassed++
@@ -462,17 +464,22 @@ function resetStopwatch() {
     var elMinutes = document.querySelector('.minutes')
     elSeconds.innerHTML = '00';
     elMinutes.innerHTML = '00';
-    gGame.secsPassed = 0;
+  
 }
 
 
 function toggleDarkMode(elButton) {
     var elBody = document.querySelector('body')
     elBody.classList.toggle('dark-mode')
+    var elTds = document.querySelectorAll('td')
+    for (var i = 0; i < elTds.length; i++) {
+        elTds[i].classList.toggle('td-dark')
+    }
+
     if (elButton.innerText === 'Dark Mode') {
         elButton.innerText = 'Light Mode';
     } else {
         elButton.innerText = 'Dark Mode'
     }
-   
+
 }
