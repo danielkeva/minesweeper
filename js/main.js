@@ -15,8 +15,8 @@ var isHinted;
 var isFirstClick;
 
 var gLevel = {
-    SIZE: 4,
-    MINES: 2
+    SIZE: 8,
+    MINES: 12
 };
 var gGame;
 var gBoard;
@@ -172,8 +172,8 @@ function cellClicked(event, elCell, i, j) {
             setMinesNegsCount()
             isFirstClick = false
             gGame.isOn = true
+            timeInterval = setInterval(setTime, 1000);
         }
-        timeInterval = setInterval(setTime, 1000);
         if (!gGame.isOn) return;
         if (isHinted) {
             useHint(i, j) // if hint clicked
